@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+}
+header, footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1em;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+}
+section {
+    margin-bottom: 2em;
+}
+form {
+    margin-top: 2em;
+}
+label {
+    display: block;
+    margin-top: 0.5em;
+}
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: 1px solid #ddd;
+}
+button {
+    padding: 0.5em 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+.produit {
+    border: 1px solid #ddd;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+.produit img {
+    max-width: 100%;
+}
