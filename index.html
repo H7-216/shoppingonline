@@ -4,72 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Site de Shopping</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        header, footer { background-color: #333; color: white; text-align: center; padding: 1em; }
-        nav ul { list-style-type: none; padding: 0; }
-        nav ul li { display: inline; margin-right: 10px; }
-        nav a { color: white; text-decoration: none; }
-        section { margin-bottom: 2em; }
-        form { margin-top: 2em; }
-        label { display: block; margin-top: 0.5em; }
-        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 0.5em; margin-top: 0.5em; border: 1px solid #ddd; }
-        button { padding: 0.5em 1em; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Mon Site de Shopping</h1>
         <nav>
             <ul>
-                <li><a href="#produits">Produits</a></li>
-                <li><a href="#boutique">Boutique</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
-
     <main>
-        <!-- Produits -->
-        <section id="produits">
-            <h2>Produits</h2>
-            <!-- Exemple de produit -->
-            <div class="produit">
-                <img src="produit.jpg" alt="Produit">
-                <h3>Produit Nom</h3>
-                <p>Une brève description du produit.</p>
-                <button>Acheter</button>
-            </div>
-            <!-- Répétez pour chaque produit -->
-        </section>
-
-        <!-- Boutique -->
-        <section id="boutique">
-            <h2>Boutique</h2>
-            <p>Nous sommes situés au cœur de la ville, offrant une large gamme de produits de qualité.</p>
-            <button>Visiter la Boutique</button>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact">
-            <h2>Contactez-nous</h2>
-            <!-- Formulaire de contact -->
-            <form action="/submit-contact" method="post">
-                <label for="name">Nom :</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="message">Message :</label>
-                <textarea id="message" name="message" required></textarea>
-
-                <button type="submit">Envoyer</button>
-            </form>
+        <section id="introduction">
+            <h2>Bienvenue sur Mon Site de Shopping</h2>
+            <p>Découvrez nos produits de qualité et nos offres spéciales.</p>
         </section>
     </main>
-
     <footer>
         © 2024 Mon Site de Shopping
     </footer>
