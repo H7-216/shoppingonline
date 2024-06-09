@@ -9,10 +9,40 @@
 <body>
     <header>
         <h1>Bienvenue sur notre site Jeunesse</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#gallery">Galerie</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
-        <p>Découvrez des contenus passionnants pour la jeunesse d'aujourd'hui !</p>
-        <a href="https://www.example.com" target="_blank" class="button">Cliquez ici pour en savoir plus</a>
+        <section id="about">
+            <h2>À propos de nous</h2>
+            <p>Nous sommes un site dédié à la jeunesse d'aujourd'hui, offrant des contenus inspirants et amusants.</p>
+        </section>
+        <section id="gallery">
+            <h2>Galerie</h2>
+            <div class="gallery-container">
+                <img src="https://via.placeholder.com/300x200?text=Image+1" alt="Image 1">
+                <img src="https://via.placeholder.com/300x200?text=Image+2" alt="Image 2">
+                <img src="https://via.placeholder.com/300x200?text=Image+3" alt="Image 3">
+                <img src="https://via.placeholder.com/300x200?text=Image+4" alt="Image 4">
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contactez-nous</h2>
+            <form action="#" method="post">
+                <label for="name">Nom:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Site Jeunesse</p>
