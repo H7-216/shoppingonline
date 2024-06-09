@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Tous les champs sont nécessaires.";
     } else {
         // Envoyez un email avec les informations du formulaire
-        $to = 'votre_email@example.com';
+        $to = 'hmoussa006@example.com';
         $subject = 'Nouveau message de contact';
         $headers = 'From: ' . $email;
 
