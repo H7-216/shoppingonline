@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+form {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+input[type=text],
+input[type=date],
+input[type=time],
+input[type=email],
+input[type=submit] {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  width: 95%;
+}
+
+input[type=submit] {
+  background-color: #5cb85c;
+  color: white;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #4cae4c;
+}
