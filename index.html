@@ -2,25 +2,24 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plateforme de Rendez-vous</title>
+<title>Prise de Rendez-vous</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Formulaire de Rendez-vous</h1>
-<form action="traitement-reservation.php" method="post">
-    <label for="nom">Nom:</label>
-    <input type="text" id="nom" name="nom" required>
-
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="date">Date de rendez-vous:</label>
-    <input type="date" id="date" name="date" required>
-
-    <label for="heure">Heure:</label>
-    <input type="time" id="heure" name="heure" required>
-
-    <input type="submit" value="Réserver">
+<h2>Formulaire de Prise de Rendez-vous</h2>
+<form action="traitement.php" method="post">
+  <label for="nom">Nom:</label><br>
+  <input type="text" id="nom" name="nom" required><br>
+  <label for="prenom">Prénom:</label><br>
+  <input type="text" id="prenom" name="prenom" required><br>
+  <label for="date">Date du rendez-vous:</label><br>
+  <input type="date" id="date" name="date" required><br>
+  <label for="heure">Heure du rendez-vous:</label><br>
+  <input type="time" id="heure" name="heure" required><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" required><br>
+  <input type="submit" value="Prendre Rendez-vous">
 </form>
+<script src="scripts.js"></script>
 </body>
 </html>
