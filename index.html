@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Jeu Snake</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Snake Game</h1>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div id="controls">
-        <p>Use arrow keys or touch buttons to move</p>
-        <p>Press "P" to pause/resume</p>
-        <p>Press "Enter" to restart</p>
+    <h1>Jeu Snake</h1>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
     </div>
-    <div id="score">Score: <span id="scoreValue">0</span></div>
-    <div id="touchControls">
-        <button id="upBtn">Up</button><br>
-        <button id="leftBtn">Left</button>
-        <button id="downBtn">Down</button>
-        <button id="rightBtn">Right</button>
+    <div class="score-container">
+        <span>Score: </span><span id="scoreValue">0</span>
+    </div>
+    <div class="controls">
+        <img src="up.png" id="upBtn" alt="Up">
+        <img src="left.png" id="leftBtn" alt="Left">
+        <img src="down.png" id="downBtn" alt="Down">
+        <img src="right.png" id="rightBtn" alt="Right">
     </div>
     <script src="script.js"></script>
 </body>
