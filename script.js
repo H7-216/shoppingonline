@@ -119,4 +119,34 @@ document.addEventListener('keydown', function (e) {
     }
 });
 
+// Touch controls
+document.getElementById('leftBtn').addEventListener('click', function() {
+    if (snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+    }
+});
+
+document.getElementById('upBtn').addEventListener('click', function() {
+    if (snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+    }
+});
+
+document.getElementById('downBtn').addEventListener('click', function() {
+    if (snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+    }
+});
+
+document.getElementById('rightBtn').addEventListener('click', function() {
+    if (snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+    }
+});
+
+resetGame();
 requestAnimationFrame(gameLoop);
