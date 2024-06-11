@@ -1,31 +1,24 @@
 body {
-  font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
 }
 
-form {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
+canvas {
+    background-color: #808080;
+    border: 1px solid #000;
 }
 
-input[type=text],
-input[type=date],
-input[type=time],
-input[type=email],
-input[type=submit] {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  width: 95%;
+#controls {
+    margin-top: 20px;
+    text-align: center;
 }
 
-input[type=submit] {
-  background-color: #5cb85c;
-  color: white;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #4cae4c;
+#score {
+    margin-top: 20px;
+    font-size: 24px;
 }
