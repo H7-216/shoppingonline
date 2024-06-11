@@ -150,3 +150,4 @@ document.getElementById('rightBtn').addEventListener('click', function() {
 
 resetGame();
 requestAnimationFrame(gameLoop);
+
