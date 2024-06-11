@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Prise de Rendez-vous</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h2>Formulaire de Prise de Rendez-vous</h2>
-<form action="traitement.php" method="post" target="_blank">
-  <label for="nom">Nom:</label><br>
-  <input type="text" id="nom" name="nom" required><br>
-  <label for="prenom">Prénom:</label><br>
-  <input type="text" id="prenom" name="prenom" required><br>
-  <label for="date">Date du rendez-vous:</label><br>
-  <input type="date" id="date" name="date" required><br>
-  <label for="heure">Heure du rendez-vous:</label><br>
-  <input type="time" id="heure" name="heure" required><br>
-  <label for="email">Email:</label><br>
-  <input type="email" id="email" name="email" required><br>
-  <input type="submit" value="Prendre Rendez-vous">
-</form>
-<script src="scripts.js"></script>
+    <h1>Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="controls">
+        <p>Use arrow keys to move</p>
+        <p>Press "P" to pause/resume</p>
+        <p>Press "Enter" to restart</p>
+    </div>
+    <div id="score">Score: <span id="scoreValue">0</span></div>
+    <script src="script.js"></script>
 </body>
 </html>
