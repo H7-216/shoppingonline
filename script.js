@@ -97,24 +97,24 @@ function gameLoop() {
 }
 
 document.addEventListener('keydown', function (e) {
-    if (e.which === 37 && snake.dx === 0) {
+    if (e.key === 'ArrowLeft' && snake.dx === 0) {
         snake.dx = -grid;
         snake.dy = 0;
-    } else if (e.which === 38 && snake.dy === 0) {
+    } else if (e.key === 'ArrowUp' && snake.dy === 0) {
         snake.dy = -grid;
         snake.dx = 0;
-    } else if (e.which === 39 && snake.dx === 0) {
+    } else if (e.key === 'ArrowRight' && snake.dx === 0) {
         snake.dx = grid;
         snake.dy = 0;
-    } else if (e.which === 40 && snake.dy === 0) {
+    } else if (e.key === 'ArrowDown' && snake.dy === 0) {
         snake.dy = grid;
         snake.dx = 0;
-    } else if (e.which === 80) {
+    } else if (e.key === 'p' || e.key === 'P') {
         paused = !paused;
         if (!paused) {
             requestAnimationFrame(gameLoop);
         }
-    } else if (e.which === 13) {
+    } else if (e.key === 'Enter') {
         resetGame();
     }
 });
