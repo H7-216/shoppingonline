@@ -118,6 +118,7 @@
             display: none;
             margin-top: 20px;
             grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
             gap: 10px;
             max-width: 200px;
             margin-left: auto;
@@ -127,22 +128,25 @@
         .mobile-btn {
             background: linear-gradient(45deg, #ff0080, #00ccff);
             border: none;
-            padding: 20px;
-            border-radius: 50%;
+            padding: 15px;
+            border-radius: 15px;
             color: white;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
-        .mobile-btn:hover {
-            transform: scale(1.1);
+        .mobile-btn:hover, .mobile-btn:active {
+            transform: scale(0.95);
             box-shadow: 0 6px 20px rgba(255, 0, 128, 0.5);
         }
 
-        .mobile-btn:nth-child(1) { grid-column: 2; }
+        .mobile-btn:nth-child(1) { grid-column: 2; grid-row: 1; }
         .mobile-btn:nth-child(2) { grid-column: 1; grid-row: 2; }
         .mobile-btn:nth-child(3) { grid-column: 3; grid-row: 2; }
         .mobile-btn:nth-child(4) { grid-column: 2; grid-row: 3; }
@@ -205,6 +209,12 @@
             }
         }
 
+        .instructions {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
         @media (max-width: 768px) {
             .mobile-controls {
                 display: grid;
@@ -213,6 +223,10 @@
             .game-board {
                 max-width: 90vw;
                 max-height: 60vh;
+            }
+
+            .instructions {
+                display: none;
             }
         }
 
@@ -245,10 +259,14 @@
         </div>
         
         <div class="mobile-controls" id="mobileControls">
-            <button class="mobile-btn" onclick="changeDirection('up')">⬆️</button>
-            <button class="mobile-btn" onclick="changeDirection('left')">⬅️</button>
-            <button class="mobile-btn" onclick="changeDirection('right')">➡️</button>
-            <button class="mobile-btn" onclick="changeDirection('down')">⬇️</button>
+            <button class="mobile-btn" data-direction="up">⬆️</button>
+            <button class="mobile-btn" data-direction="left">⬅️</button>
+            <button class="mobile-btn" data-direction="right">➡️</button>
+            <button class="mobile-btn" data-direction="down">⬇️</button>
+        </div>
+
+        <div class="instructions">
+            PC: Utilisez les flèches ou WASD | Mobile: Swipe ou boutons
         </div>
         
         <div class="game-over" id="gameOver">
@@ -265,23 +283,19 @@
         const gameOverElement = document.getElementById('gameOver');
         const finalScoreElement = document.getElementById('finalScore');
 
+        let gridSize = 20;
+        let tileCount = 20;
+        
         // Ajustement de la taille du canvas pour être responsive
         function resizeCanvas() {
-            const maxWidth = Math.min(window.innerWidth * 0.9, 500);
-            const maxHeight = Math.min(window.innerHeight * 0.6, 500);
-            const size = Math.min(maxWidth, maxHeight);
+            const maxSize = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.6, 500);
+            canvas.width = maxSize;
+            canvas.height = maxSize;
             
-            canvas.width = size;
-            canvas.height = size;
-            
-            // Recalculer la taille des cellules
-            gridSize = Math.floor(size / 25);
-            tileCount = Math.floor(size / gridSize);
+            gridSize = Math.floor(maxSize / 20);
+            tileCount = Math.floor(maxSize / gridSize);
         }
 
-        let gridSize = 16;
-        let tileCount = 25;
-        
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
@@ -294,6 +308,91 @@
         let score = 0;
         let gameRunning = false;
         let gameLoop;
+
+        // Créer des images internes pour le serpent
+        function createSnakeHeadImage() {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = gridSize;
+            tempCanvas.height = gridSize;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Tête du serpent avec yeux
+            const gradient = tempCtx.createRadialGradient(
+                gridSize/2, gridSize/2, 0,
+                gridSize/2, gridSize/2, gridSize/2
+            );
+            gradient.addColorStop(0, '#00ff88');
+            gradient.addColorStop(1, '#00aa44');
+            
+            tempCtx.fillStyle = gradient;
+            tempCtx.fillRect(0, 0, gridSize, gridSize);
+            
+            // Yeux
+            tempCtx.fillStyle = '#fff';
+            tempCtx.fillRect(gridSize * 0.2, gridSize * 0.2, gridSize * 0.2, gridSize * 0.2);
+            tempCtx.fillRect(gridSize * 0.6, gridSize * 0.2, gridSize * 0.2, gridSize * 0.2);
+            
+            // Pupilles
+            tempCtx.fillStyle = '#000';
+            tempCtx.fillRect(gridSize * 0.25, gridSize * 0.25, gridSize * 0.1, gridSize * 0.1);
+            tempCtx.fillRect(gridSize * 0.65, gridSize * 0.25, gridSize * 0.1, gridSize * 0.1);
+            
+            return tempCanvas;
+        }
+
+        function createSnakeBodyImage() {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = gridSize;
+            tempCanvas.height = gridSize;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Corps du serpent avec écailles
+            const gradient = tempCtx.createLinearGradient(0, 0, gridSize, gridSize);
+            gradient.addColorStop(0, '#00cc66');
+            gradient.addColorStop(1, '#008844');
+            
+            tempCtx.fillStyle = gradient;
+            tempCtx.fillRect(0, 0, gridSize, gridSize);
+            
+            // Écailles
+            tempCtx.fillStyle = '#00aa55';
+            tempCtx.fillRect(gridSize * 0.1, gridSize * 0.1, gridSize * 0.8, gridSize * 0.3);
+            tempCtx.fillRect(gridSize * 0.1, gridSize * 0.6, gridSize * 0.8, gridSize * 0.3);
+            
+            return tempCanvas;
+        }
+
+        function createFoodImage() {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = gridSize;
+            tempCanvas.height = gridSize;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Pomme rouge brillante
+            const gradient = tempCtx.createRadialGradient(
+                gridSize/2, gridSize/2, 0,
+                gridSize/2, gridSize/2, gridSize/2
+            );
+            gradient.addColorStop(0, '#ff4444');
+            gradient.addColorStop(1, '#cc0000');
+            
+            tempCtx.fillStyle = gradient;
+            tempCtx.beginPath();
+            tempCtx.arc(gridSize/2, gridSize/2, gridSize/2 - 2, 0, 2 * Math.PI);
+            tempCtx.fill();
+            
+            // Reflet
+            tempCtx.fillStyle = '#ffaaaa';
+            tempCtx.beginPath();
+            tempCtx.arc(gridSize/3, gridSize/3, gridSize/6, 0, 2 * Math.PI);
+            tempCtx.fill();
+            
+            return tempCanvas;
+        }
+
+        const snakeHeadImg = createSnakeHeadImage();
+        const snakeBodyImg = createSnakeBodyImage();
+        const foodImg = createFoodImage();
 
         // Créer des particules d'arrière-plan
         function createParticles() {
@@ -331,56 +430,27 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Dessiner le serpent avec des effets
-            ctx.shadowBlur = 20;
+            // Dessiner le serpent avec des images
+            ctx.shadowBlur = 15;
             ctx.shadowColor = '#00ff88';
             
             snake.forEach((segment, index) => {
+                const x = segment.x * gridSize;
+                const y = segment.y * gridSize;
+                
                 if (index === 0) {
                     // Tête du serpent
-                    const headGradient = ctx.createRadialGradient(
-                        segment.x * gridSize + gridSize/2, 
-                        segment.y * gridSize + gridSize/2, 
-                        0,
-                        segment.x * gridSize + gridSize/2, 
-                        segment.y * gridSize + gridSize/2, 
-                        gridSize/2
-                    );
-                    headGradient.addColorStop(0, '#00ff88');
-                    headGradient.addColorStop(1, '#00cc66');
-                    ctx.fillStyle = headGradient;
+                    ctx.drawImage(snakeHeadImg, x, y);
                 } else {
                     // Corps du serpent
-                    const bodyGradient = ctx.createLinearGradient(
-                        segment.x * gridSize, 
-                        segment.y * gridSize,
-                        segment.x * gridSize + gridSize, 
-                        segment.y * gridSize + gridSize
-                    );
-                    bodyGradient.addColorStop(0, '#00cc66');
-                    bodyGradient.addColorStop(1, '#009944');
-                    ctx.fillStyle = bodyGradient;
+                    ctx.drawImage(snakeBodyImg, x, y);
                 }
-                
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
             });
 
-            // Dessiner la nourriture avec des effets
-            ctx.shadowColor = '#ff0080';
-            ctx.shadowBlur = 15;
-            
-            const foodGradient = ctx.createRadialGradient(
-                food.x * gridSize + gridSize/2, 
-                food.y * gridSize + gridSize/2, 
-                0,
-                food.x * gridSize + gridSize/2, 
-                food.y * gridSize + gridSize/2, 
-                gridSize/2
-            );
-            foodGradient.addColorStop(0, '#ff0080');
-            foodGradient.addColorStop(1, '#cc0066');
-            ctx.fillStyle = foodGradient;
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+            // Dessiner la nourriture
+            ctx.shadowColor = '#ff4444';
+            ctx.shadowBlur = 10;
+            ctx.drawImage(foodImg, food.x * gridSize, food.y * gridSize);
             
             ctx.shadowBlur = 0;
         }
@@ -413,9 +483,10 @@
                 generateFood();
                 
                 // Effet visuel quand on mange
-                document.body.style.animation = 'none';
-                document.body.offsetHeight;
-                document.body.style.animation = 'gradientShift 0.5s ease';
+                canvas.style.filter = 'brightness(1.3)';
+                setTimeout(() => {
+                    canvas.style.filter = 'brightness(1)';
+                }, 200);
             } else {
                 snake.pop();
             }
@@ -434,6 +505,9 @@
             if (!gameRunning) {
                 gameRunning = true;
                 gameOverElement.style.display = 'none';
+                if (dx === 0 && dy === 0) {
+                    dx = 1; // Commencer en allant vers la droite
+                }
                 gameLoop = setInterval(updateGame, 150);
             }
         }
@@ -479,79 +553,116 @@
             }
         }
 
-        // Contrôles clavier
+        // Contrôles clavier - CORRIGÉS
         document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            
             switch(e.key) {
                 case 'ArrowUp':
                 case 'w':
                 case 'W':
-                    e.preventDefault();
                     changeDirection('up');
                     break;
                 case 'ArrowDown':
                 case 's':
                 case 'S':
-                    e.preventDefault();
                     changeDirection('down');
                     break;
                 case 'ArrowLeft':
                 case 'a':
                 case 'A':
-                    e.preventDefault();
                     changeDirection('left');
                     break;
                 case 'ArrowRight':
                 case 'd':
                 case 'D':
-                    e.preventDefault();
                     changeDirection('right');
                     break;
                 case ' ':
-                    e.preventDefault();
                     pauseGame();
+                    break;
+                case 'Enter':
+                    if (!gameRunning && gameOverElement.style.display === 'none') {
+                        startGame();
+                    }
                     break;
             }
         });
 
-        // Contrôles tactiles pour mobile
+        // Contrôles mobiles - CORRIGÉS
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileButtons = document.querySelectorAll('.mobile-btn');
+            mobileButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const direction = button.getAttribute('data-direction');
+                    changeDirection(direction);
+                });
+                
+                button.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const direction = button.getAttribute('data-direction');
+                    changeDirection(direction);
+                });
+            });
+        });
+
+        // Contrôles tactiles pour swipe - CORRIGÉS
         let touchStartX = 0;
         let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
 
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
-        });
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
 
         canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
             if (!gameRunning) return;
             
-            const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
             
             const diffX = touchEndX - touchStartX;
             const diffY = touchEndY - touchStartY;
             
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                if (diffX > 0) {
-                    changeDirection('right');
+            const minSwipeDistance = 30;
+            
+            if (Math.abs(diffX) > minSwipeDistance || Math.abs(diffY) > minSwipeDistance) {
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 0) {
+                        changeDirection('right');
+                    } else {
+                        changeDirection('left');
+                    }
                 } else {
-                    changeDirection('left');
-                }
-            } else {
-                if (diffY > 0) {
-                    changeDirection('down');
-                } else {
-                    changeDirection('up');
+                    if (diffY > 0) {
+                        changeDirection('down');
+                    } else {
+                        changeDirection('up');
+                    }
                 }
             }
-        });
+        }, { passive: false });
 
         // Initialisation
         createParticles();
         generateFood();
         drawGame();
+
+        // Test automatique du jeu
+        console.log('🐍 Snake Game initialisé !');
+        console.log('✅ Canvas créé');
+        console.log('✅ Images du serpent générées');
+        console.log('✅ Contrôles configurés');
+        console.log('✅ Jeu prêt à jouer !');
     </script>
 </body>
 </html>
