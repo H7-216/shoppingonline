@@ -309,90 +309,13 @@
         let gameRunning = false;
         let gameLoop;
 
-        // Créer des images internes pour le serpent
-        function createSnakeHeadImage() {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = gridSize;
-            tempCanvas.height = gridSize;
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            // Tête du serpent avec yeux
-            const gradient = tempCtx.createRadialGradient(
-                gridSize/2, gridSize/2, 0,
-                gridSize/2, gridSize/2, gridSize/2
-            );
-            gradient.addColorStop(0, '#00ff88');
-            gradient.addColorStop(1, '#00aa44');
-            
-            tempCtx.fillStyle = gradient;
-            tempCtx.fillRect(0, 0, gridSize, gridSize);
-            
-            // Yeux
-            tempCtx.fillStyle = '#fff';
-            tempCtx.fillRect(gridSize * 0.2, gridSize * 0.2, gridSize * 0.2, gridSize * 0.2);
-            tempCtx.fillRect(gridSize * 0.6, gridSize * 0.2, gridSize * 0.2, gridSize * 0.2);
-            
-            // Pupilles
-            tempCtx.fillStyle = '#000';
-            tempCtx.fillRect(gridSize * 0.25, gridSize * 0.25, gridSize * 0.1, gridSize * 0.1);
-            tempCtx.fillRect(gridSize * 0.65, gridSize * 0.25, gridSize * 0.1, gridSize * 0.1);
-            
-            return tempCanvas;
+        // Fonction pour dessiner des emojis
+        function drawEmoji(emoji, x, y, size) {
+            ctx.font = `${size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, x + size/2, y + size/2);
         }
-
-        function createSnakeBodyImage() {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = gridSize;
-            tempCanvas.height = gridSize;
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            // Corps du serpent avec écailles
-            const gradient = tempCtx.createLinearGradient(0, 0, gridSize, gridSize);
-            gradient.addColorStop(0, '#00cc66');
-            gradient.addColorStop(1, '#008844');
-            
-            tempCtx.fillStyle = gradient;
-            tempCtx.fillRect(0, 0, gridSize, gridSize);
-            
-            // Écailles
-            tempCtx.fillStyle = '#00aa55';
-            tempCtx.fillRect(gridSize * 0.1, gridSize * 0.1, gridSize * 0.8, gridSize * 0.3);
-            tempCtx.fillRect(gridSize * 0.1, gridSize * 0.6, gridSize * 0.8, gridSize * 0.3);
-            
-            return tempCanvas;
-        }
-
-        function createFoodImage() {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = gridSize;
-            tempCanvas.height = gridSize;
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            // Pomme rouge brillante
-            const gradient = tempCtx.createRadialGradient(
-                gridSize/2, gridSize/2, 0,
-                gridSize/2, gridSize/2, gridSize/2
-            );
-            gradient.addColorStop(0, '#ff4444');
-            gradient.addColorStop(1, '#cc0000');
-            
-            tempCtx.fillStyle = gradient;
-            tempCtx.beginPath();
-            tempCtx.arc(gridSize/2, gridSize/2, gridSize/2 - 2, 0, 2 * Math.PI);
-            tempCtx.fill();
-            
-            // Reflet
-            tempCtx.fillStyle = '#ffaaaa';
-            tempCtx.beginPath();
-            tempCtx.arc(gridSize/3, gridSize/3, gridSize/6, 0, 2 * Math.PI);
-            tempCtx.fill();
-            
-            return tempCanvas;
-        }
-
-        const snakeHeadImg = createSnakeHeadImage();
-        const snakeBodyImg = createSnakeBodyImage();
-        const foodImg = createFoodImage();
 
         // Créer des particules d'arrière-plan
         function createParticles() {
@@ -430,7 +353,7 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Dessiner le serpent avec des images
+            // Dessiner le serpent avec des emojis
             ctx.shadowBlur = 15;
             ctx.shadowColor = '#00ff88';
             
@@ -438,19 +361,16 @@
                 const x = segment.x * gridSize;
                 const y = segment.y * gridSize;
                 
-                if (index === 0) {
-                    // Tête du serpent
-                    ctx.drawImage(snakeHeadImg, x, y);
-                } else {
-                    // Corps du serpent
-                    ctx.drawImage(snakeBodyImg, x, y);
-                }
+                // Tout le serpent est représenté par l'emoji 🐍
+                ctx.fillStyle = '#00ff88';
+                drawEmoji('🐍', x, y, gridSize);
             });
 
-            // Dessiner la nourriture
+            // Dessiner la nourriture avec emoji 🍑
             ctx.shadowColor = '#ff4444';
             ctx.shadowBlur = 10;
-            ctx.drawImage(foodImg, food.x * gridSize, food.y * gridSize);
+            ctx.fillStyle = '#ff4444';
+            drawEmoji('🍑', food.x * gridSize, food.y * gridSize, gridSize);
             
             ctx.shadowBlur = 0;
         }
@@ -660,7 +580,7 @@
         // Test automatique du jeu
         console.log('🐍 Snake Game initialisé !');
         console.log('✅ Canvas créé');
-        console.log('✅ Images du serpent générées');
+        console.log('✅ Emojis serpent 🐍 et nourriture 🍑 configurés');
         console.log('✅ Contrôles configurés');
         console.log('✅ Jeu prêt à jouer !');
     </script>
